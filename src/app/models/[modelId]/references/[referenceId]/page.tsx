@@ -1,12 +1,7 @@
-'use client';
-
-import PriceChart from '@/components/PriceChart';
-import TimeRangeSelector from '@/components/TimeRangeSelector';
-import { TimeRange } from '@/types';
-import { formatPrice, getChartData, getModelById, getPriceData as getPriceDataUtil } from '@/utils/data';
+import DynamicPriceChart from '@/components/DynamicPriceChart';
+import { formatPrice, getModelById, getPriceData as getPriceDataUtil } from '@/utils/data';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { use, useEffect, useState } from 'react';
 
 interface ReferencePageProps {
   params: Promise<{
@@ -15,59 +10,30 @@ interface ReferencePageProps {
   }>;
 }
 
-export default function ReferencePage({ params }: ReferencePageProps) {
-  const [selectedRange, setSelectedRange] = useState<TimeRange>('1m');
-  const [isClient, setIsClient] = useState(false);
-  const [model, setModel] = useState<any>(null);
-  const [priceData, setPriceData] = useState<any>(null);
-  const [reference, setReference] = useState<any>(null);
-  const [chartData, setChartData] = useState<any>(null);
-  const [latestPrice, setLatestPrice] = useState<number>(0);
-  const [latestDate, setLatestDate] = useState<string>('');
-  const [formattedPrice, setFormattedPrice] = useState<string>('');
+export default async function ReferencePage({ params }: ReferencePageProps) {
+  const { modelId, referenceId } = await params;
   
-  // React.use()を使用してparamsを取得
-  const { modelId, referenceId } = use(params);
-  
-  useEffect(() => {
-    setIsClient(true);
-    
-    const loadData = async () => {
-      const modelData = getModelById(modelId);
-      const priceDataUtil = getPriceDataUtil(referenceId);
+  // サーバーサイドでデータを取得
+  const model = getModelById(modelId);
+  const priceData = getPriceDataUtil(referenceId);
 
-      if (!modelData || !priceDataUtil) {
-        notFound();
-      }
-
-      const referenceData = modelData.references.find((ref: any) => ref.id === referenceId);
-      if (!referenceData) {
-        notFound();
-      }
-
-      const chartDataUtil = getChartData(referenceId, selectedRange);
-      const dates = Object.keys(priceDataUtil.prices).sort();
-      const latestDateUtil = dates[dates.length - 1];
-      const latestPriceUtil = priceDataUtil.prices[latestDateUtil];
-
-      setModel(modelData);
-      setPriceData(priceDataUtil);
-      setReference(referenceData);
-      setChartData(chartDataUtil);
-      setLatestPrice(latestPriceUtil);
-      setLatestDate(latestDateUtil);
-      setFormattedPrice(formatPrice(latestPriceUtil));
-    };
-
-    loadData();
-  }, [modelId, referenceId, selectedRange]);
-
-  if (!model || !priceData || !reference) {
-    return <div>Loading...</div>;
+  if (!model || !priceData) {
+    notFound();
   }
 
+  const reference = model.references.find((ref: any) => ref.id === referenceId);
+  if (!reference) {
+    notFound();
+  }
+
+  // 初期データを準備
+  const dates = Object.keys(priceData.prices).sort();
+  const latestDate = dates[dates.length - 1];
+  const latestPrice = priceData.prices[latestDate];
+  const formattedPrice = formatPrice(latestPrice);
+
   return (
-    <div className="min-h-screen bg-gray-50" suppressHydrationWarning>
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -96,8 +62,8 @@ export default function ReferencePage({ params }: ReferencePageProps) {
               <h2 className="text-lg font-semibold text-gray-800 mb-2">
                 現在価格
               </h2>
-              <p className="text-3xl font-bold text-blue-600" suppressHydrationWarning>
-                {isClient ? formattedPrice : `¥${latestPrice.toLocaleString()}`}
+              <p className="text-3xl font-bold text-blue-600">
+                {formattedPrice}
               </p>
               <p className="text-sm text-gray-500 mt-1">
                 最終更新: {latestDate}
@@ -111,11 +77,7 @@ export default function ReferencePage({ params }: ReferencePageProps) {
 
         {/* Chart */}
         <div className="mb-8">
-          <TimeRangeSelector
-            selectedRange={selectedRange}
-            onRangeChange={setSelectedRange}
-          />
-          {isClient && chartData && <PriceChart data={chartData} timeRange={selectedRange} />}
+          <DynamicPriceChart referenceId={referenceId} />
         </div>
 
         {/* Disclaimer */}
