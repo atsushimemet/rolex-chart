@@ -1,0 +1,96 @@
+[
+  {
+    "id": "submariner",
+    "name": "Submariner",
+    "description": "ダイバーズウォッチの代名詞",
+    "image": "/images/submariner.jpg",
+    "references": [
+      {
+        "id": "126610ln",
+        "name": "126610LN",
+        "description": "ステンレススチール、ブラックダイヤル",
+        "image": "/images/126610ln.jpg"
+      },
+      {
+        "id": "126613ln",
+        "name": "126613LN",
+        "description": "イエローゴールド＆ステンレススチール、ブラックダイヤル",
+        "image": "/images/126613ln.jpg"
+      }
+    ]
+  },
+  {
+    "id": "datejust",
+    "name": "Datejust",
+    "description": "クラシックなデザインのデイト表示機能付き",
+    "image": "/images/datejust.jpg",
+    "references": [
+      {
+        "id": "126234",
+        "name": "126234",
+        "description": "ステンレススチール、ホワイトダイヤル",
+        "image": "/images/126234.jpg"
+      },
+      {
+        "id": "126233",
+        "name": "126233",
+        "description": "イエローゴールド＆ステンレススチール、ホワイトダイヤル",
+        "image": "/images/126233.jpg"
+      }
+    ]
+  },
+  {
+    "id": "daytona",
+    "name": "Daytona",
+    "description": "レーシングスピリットを体現したクロノグラフ",
+    "image": "/images/daytona.jpg",
+    "references": [
+      {
+        "id": "116500ln",
+        "name": "116500LN",
+        "description": "ステンレススチール、ホワイトダイヤル",
+        "image": "/images/116500ln.jpg"
+      },
+      {
+        "id": "116503",
+        "name": "116503",
+        "description": "イエローゴールド＆ステンレススチール、ブラックダイヤル",
+        "image": "/images/116503.jpg"
+      }
+    ]
+  },
+  {
+    "id": "gmt-master",
+    "name": "GMT-Master II",
+    "description": "世界時計機能を備えたパイロットウォッチ",
+    "image": "/images/gmt-master.jpg",
+    "references": [
+      {
+        "id": "126710blnr",
+        "name": "126710BLNR",
+        "description": "ステンレススチール、ブルー＆ブラックベゼル",
+        "image": "/images/126710blnr.jpg"
+      },
+      {
+        "id": "126711chnr",
+        "name": "126711CHNR",
+        "description": "イエローゴールド＆ステンレススチール、ブラウン＆ブラックベゼル",
+        "image": "/images/126711chnr.jpg"
+      }
+    ]
+  },
+  {
+    "id": "explorer",
+    "name": "Explorer",
+    "description": "探検家の精神を表現したシンプルなデザイン",
+    "image": "/images/explorer.jpg",
+    "references": [
+      {
+        "id": "124270",
+        "name": "124270",
+        "description": "ステンレススチール、ブラックダイヤル",
+        "image": "/images/124270.jpg"
+      }
+    ]
+  }
+] 
